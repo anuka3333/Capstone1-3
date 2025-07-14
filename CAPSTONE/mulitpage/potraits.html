@@ -1,0 +1,144 @@
+<html> 
+<head>
+  <title>Portraits</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, h1, p, a, nav, .dropdown, .dropdown-content {
+      font-family: 'Playfair Display', serif !important;
+      color: #3e2723 !important;
+      background: #fffbf6 !important;
+    }
+    body {
+      padding-top: 170px;
+      background: #fffbf6 !important;
+    }
+    /* DROPDOWN STYLES */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      text-align: center;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 30px;
+      color: rgb(0, 0, 0);
+      border-bottom: none;
+      flex: none;
+      margin-left: 0;
+      gap: 40px;
+      margin-bottom: 16px;
+      position: static;
+      top: 0;
+      background: #fffbf6;
+      z-index: 1000;
+      margin-top: 12px;
+    
+    }
+    .main-nav a, .main-nav .dropdown {
+      margin-right: 0;
+      font-size: 18px;
+      color: #3e2723 !important;
+      text-decoration: none;
+      font-weight: 400;
+      display: inline-block;
+    }
+    .main-nav a.active {
+      color: rgb(85, 6, 85) !important;
+      font-weight: 700;
+    }
+    .main-nav a:last-child {
+      margin-right: 0;
+    }
+    .main-nav a:hover {
+      text-decoration: none;
+    }
+
+    .header-row {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 1100;
+      background: #fffbf6;
+      display: block;
+      margin-bottom: 0;
+      text-align: center;
+      padding-top: 0;
+    }
+    /* Banner centered and large */
+    .banner-img {
+      display: block;
+      margin: 20px auto 10px auto;
+      width: 50%;
+      max-width: 350px;
+      height: auto;
+    }
+    .banner-img {
+      margin-bottom: 0;
+    }
+    .photo-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 30px;
+    }
+    .photo-row img {
+      width: 450px;
+      height: auto;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header-row">
+    <img src="../anuka.png" alt="Anuka Photos Banner" class="banner-img">
+    <nav class="main-nav"> 
+      <a href="index1.html">Home</a>
+      <a href="about.html">About</a>
+      <div class="dropdown">
+        <a href="#">Portfolio</a>
+        <div class="dropdown-content">
+          <a href="potraits.html" class="active" >Portraits</a>
+          <a href="Live_Events.html">Live Events</a>
+          <a href="hospitality.html">Hospitality</a>
+        </div>
+      </div>
+      <a href="contact.html">Contact</a>
+      <a href="shop.html">Shop</a>
+    </nav>
+  </div>
