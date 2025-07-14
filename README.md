@@ -43,8 +43,8 @@ Built with **React.js**, this project showcases my ability to design, develop, a
 
 ## Getting Started
 
-git clone https://github.com/yourusername/anuka-photos.git
-cd anuka-photos
+git clone https://github.com/anuka3333/capstone1-3.git
+cd capstone1-3
 
 npm install
 
