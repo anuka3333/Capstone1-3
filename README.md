@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # 📸 Anuka Photos – Capstone Project
 
-Welcome to the GitHub repository for **Anuka Photos**, my personal photography website and final capstone project for the **Northwestern University Front-End Development Certificate Program**.
+Welcome to the GitHub repository for **Anuka Photos**, my personal photography website and final capstone project.
 
 ## 🌟 About the Project
 
