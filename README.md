@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📸 Anuka Photos – Capstone Project
 
 Welcome to the GitHub repository for **Anuka Photos**, my personal photography website and final capstone project.
