@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
-
-const Test = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-    </div>
-  );
-};
+import { RouterProvider } from "react-router-dom";
+import { Router } from "./Router";  
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<Test />);
-
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={Router} />
+  </React.StrictMode>
+);
