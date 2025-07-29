@@ -1,6 +1,6 @@
-import { createHashRouter } from "react-router";
-import Layout from "./Layout";
-import Contact from "./contact";
+import { createHashRouter } from "react-router-dom";
+import Layout from "./Layout.jsx";
+import Contact from "./contact.js";
 import Home from "./home.jsx"; 
 import Hospitality from "./Hospitality.jsx";
 import About from "./About.jsx"; 
