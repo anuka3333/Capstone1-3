@@ -8,18 +8,19 @@ const router = express.Router();
 
 // Register new user
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;  // add role here
   const hash = await bcrypt.hash(password, 10);
   try {
     const result = await db.run(
-      `INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)`,
-      [name, email, hash]
+      `INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)`,
+      [name, email, hash, role || "client"]  // default to 'client' if role not provided
     );
     res.json({ status: "success", userId: result.lastID });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
+
 
 // Login user
 router.post("/login", async (req, res) => {
