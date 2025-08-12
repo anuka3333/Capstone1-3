@@ -19,6 +19,7 @@ export const Router = createHashRouter([
       { path: "portraits", element: <Portraits /> },
       { path: "live_events", element: <LiveEvents /> },
       { path: "hospitality", element: <Hospitality /> },
+      
     ]
   }
 ]);

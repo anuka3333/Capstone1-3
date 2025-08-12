@@ -1,15 +1,23 @@
+import React from 'react';
 import NavBar from './components/nav/NavBar';
-import { Outlet } from 'react-router-dom'
-import './layout.css'
+import { Outlet, NavLink } from 'react-router-dom';
+import './layout.css';
 
 const Layout = () => (
   <div>
-    <img src="/anuka.png" alt="Anuka Photos Banner" className="banner-img" />
+    <header className="header-row">
+      <img src="/anuka.png" alt="Anuka Photos Banner" className="banner-img" />
+      <NavLink to="/my-account" className="my-account-link">
+        My Account
+      </NavLink>
+    </header>
 
     <NavBar />
-    <div>
+
+    {/* Add padding-top so content starts below fixed nav/header */}
+    <main style={{ paddingTop: '120px' }}>
       <Outlet />
-    </div>
+    </main>
   </div>
 );
 

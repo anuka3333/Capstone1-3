@@ -41,6 +41,7 @@ body {
   background-color: #f1f1f1;
 }
 
+/* Main navigation styles (below header) */
 .main-nav {
   display: flex;
   justify-content: center;
@@ -82,32 +83,53 @@ body {
   text-decoration: none;
 }
 
+/* HEADER ROW: container for banner + My Account */
 .header-row {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 1100;
+  height: 80px; /* Adjust based on banner image height */
   background: #fffbf6;
-  display: block;
+  z-index: 1100;
   margin-bottom: 0;
-  text-align: center;
-  padding-top: 0;
+  padding: 0;
+  /* Important: relative for absolute positioning inside */
+  position: relative;
 }
 
-/* Banner centered and large */
+/* Center the banner image horizontally and vertically inside header */
 .banner-img {
-  display: block;
-  margin: 20px auto 10px auto;
-  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   max-width: 350px;
+  width: 50%;
   height: auto;
+  margin: 0;
 }
 
-.banner-img {
-  margin-bottom: 0;
+/* My Account link positioned top right */
+.my-account-link {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #3e2723;
+  text-decoration: underline;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
+.my-account-link:hover {
+  color: rgb(85, 6, 85);
+}
+
+/* Photo row and images (unchanged) */
 .photo-row {
   display: flex;
   justify-content: center;
@@ -121,4 +143,9 @@ body {
   display: block;
   margin: 0;
   padding: 0;
+}
+
+/* Push page content below fixed header */
+main {
+  padding-top: 10px; /* same as .header-row height */
 }

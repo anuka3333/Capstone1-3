@@ -38,7 +38,6 @@ export default function HospitalityGallery() {
 
   return (
     <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Hospitality Photo Highlights</h1>
       <div
         style={{
           display: "flex",

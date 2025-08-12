@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e62a26e9-9a8a-4c01-96c3-787399073166/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/anukaphotos-capstone",
+    "appService.deploySubpath": "."
+}
