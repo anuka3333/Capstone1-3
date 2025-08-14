@@ -4,17 +4,35 @@ import AlbumForm from './AlbumForm';
 import axios from 'axios';
 
 const Albums = () => {
-  // 1. Destructure isLoading from the useAuth0 hook
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [albums, setAlbums] = useState([]);
 
-  // This check is now more robust because of the isLoading guard above it.
-  const roles = user?.['https://anukaphotos333/roles'] || [];
-
+  // Debug logging (use JSON.stringify so console shows a snapshot)
+  console.log('Albums component render:');
+  console.log('isLoading:', isLoading);
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('user:', JSON.stringify(user));
+  
+  // Normalize roles: handle array, comma-separated string, or single role string
+  const rawRoles = user?.['https://anukaphotos333/roles'] || user?.roles || user?.role || user?.['roles'];
+  let roles = [];
+  if (Array.isArray(rawRoles)) {
+    roles = rawRoles;
+  } else if (typeof rawRoles === 'string' && rawRoles.trim() !== '') {
+    roles = rawRoles.split(',').map(r => r.trim());
+  } else if (rawRoles) {
+    // fallback for single non-array value
+    roles = [String(rawRoles)];
+  }
+  // Normalize to lowercase for case-insensitive checks
+  const normalizedRoles = roles.map(r => String(r).toLowerCase());
+  console.log('raw roles:', JSON.stringify(rawRoles), 'normalized roles:', JSON.stringify(normalizedRoles), 'isArray:', Array.isArray(rawRoles));
+  const isAdmin = normalizedRoles.includes('admin');
+  const debugString = `rawRoles: ${JSON.stringify(rawRoles)}\nnormalizedRoles: ${JSON.stringify(normalizedRoles)}\nisAdmin: ${isAdmin}`;
+  console.log(debugString);
 
   const fetchAlbums = async () => {
     try {
-      // As mentioned before, you will need this for the client view to work correctly
       const token = await getAccessTokenSilently();
       const response = await axios.get('/api/albums', {
         headers: {
@@ -28,29 +46,33 @@ const Albums = () => {
   };
 
   useEffect(() => {
-    // Only fetch albums if authentication is complete and successful
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
       fetchAlbums();
     }
-  }, [isAuthenticated]); // This dependency is correct
+  }, [isAuthenticated, user]);
 
-  // 2. Add a loading state. This is the crucial part.
-  // It prevents the rest of the component from rendering until Auth0 is ready.
-  if (isLoading) {
+  // More robust loading check
+  if (isLoading || (isAuthenticated && !user)) {
     return <div>Loading...</div>;
   }
 
-  // This guard is still good for users who are not logged in at all.
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated) {
     return <div>Please log in to view albums.</div>;
   }
+
+  // roles already normalized above; use isAdmin from earlier
 
   return (
     <div style={{ padding: '20px' }}>
       <h1>Albums</h1>
+      
+      {/* Debug: show role detection values on the page */}
+      <pre style={{ whiteSpace: 'pre-wrap', background: '#f6f8fa', padding: '8px', borderRadius: '4px' }}>
+        {debugString}
+      </pre>
 
-      {/* This condition will now work reliably because 'user' is guaranteed to be populated */}
-      {roles.includes('Admin') && <AlbumForm onAlbumCreated={fetchAlbums} />}
+      {/* Show the form if user is admin */}
+      {isAdmin && <AlbumForm onAlbumCreated={fetchAlbums} />}
 
       {/* List all albums */}
       <div style={{ marginTop: '20px' }}>
