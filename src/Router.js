@@ -1,25 +1,39 @@
-import { createHashRouter } from "react-router";
-import Layout from "./Layout";
-import Contact from "./contact";
-import Home from "./home.jsx"; 
-import Hospitality from "./Hospitality.jsx";
-import About from "./About.jsx"; 
-import Portraits from "./Potraits.jsx";
-import LiveEvents from "./LiveEvents.jsx"; 
+import { createHashRouter } from 'react-router';
+import Layout from './Layout';
+import Home from './home';
+import About from './About';
+import Contact from './contact';
+import Portraits from './Potraits';
+import LiveEvents from './LiveEvents';
+import Hospitality from './Hospitality';
+import AdminDashboard from './AdminDashboard';
+import ProtectedRoute from './ProtectedRoute';
+import Albums from './components/Albums';
+import AlbumForm from './components/AlbumForm';
+
 export const Router = createHashRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "about", element: <About /> },
-      { path: "portfolio", element: <h1>Our Portfolio</h1> },
-      { path: "contact", element: <Contact /> },
-      { path: "shop", element: <h1>Coming Soon!</h1> },
-      { path: "portraits", element: <Portraits /> },
-      { path: "live_events", element: <LiveEvents /> },
-      { path: "hospitality", element: <Hospitality /> },
-      
-    ]
-  }
+      { path: 'about', element: <About /> },
+      { path: 'contact', element: <Contact /> },
+      { path: 'portraits', element: <Portraits /> },
+      { path: 'live_events', element: <LiveEvents /> },
+      { path: 'hospitality', element: <Hospitality /> },
+      { path: 'my-account', element: <Home /> }, // or some public page
+      {
+        path: 'admin',
+        element: (
+          <ProtectedRoute roles={['Admin']}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      { path: 'shop', element: <h1>Coming Soon!</h1> },
+      { path: 'albums', element: <Albums /> },
+      { path: 'album-form', element: <AlbumForm /> },
+    ],
+  },
 ]);

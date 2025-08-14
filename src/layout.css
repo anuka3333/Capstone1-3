@@ -1,7 +1,10 @@
+/* Global styles */
 body, h1, p, a, nav, .dropdown, .dropdown-content {
   font-family: 'Playfair Display', serif !important;
   color: #3e2723 !important;
   background: #fffbf6 !important;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -41,76 +44,28 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Main navigation styles (below header) */
-.main-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 30px;
-  color: rgb(0, 0, 0);
-  border-bottom: none;
-  flex: none;
-  margin-left: 0;
-  gap: 40px;
-  margin-bottom: 16px;
-  position: static;
-  top: 0;
-  background: #fffbf6;
-  z-index: 1000;
-  margin-top: 12px;
-}
-
-.main-nav a, .main-nav .dropdown {
-  margin-right: 0;
-  font-size: 18px;
-  color: #3e2723 !important;
-  text-decoration: none;
-  font-weight: 400;
-  display: inline-block;
-}
-
-.main-nav a.active {
-  color: rgb(85, 6, 85) !important;
-  font-weight: 700;
-}
-
-.main-nav a:last-child {
-  margin-right: 0;
-}
-
-.main-nav a:hover {
-  text-decoration: none;
-}
-
-/* HEADER ROW: container for banner + My Account */
+/* HEADER ROW: fixed container for banner + nav + My Account */
 .header-row {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 80px; /* Adjust based on banner image height */
+  width: 100%;
   background: #fffbf6;
-  z-index: 1100;
-  margin-bottom: 0;
-  padding: 0;
-  /* Important: relative for absolute positioning inside */
-  position: relative;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
 }
 
-/* Center the banner image horizontally and vertically inside header */
+/* Banner image centered inside header */
 .banner-img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 350px;
+  max-width: 300px;
   width: 50%;
   height: auto;
-  margin: 0;
 }
 
-/* My Account link positioned top right */
+/* My Account link/button */
 .my-account-link {
   position: absolute;
   right: 20px;
@@ -129,7 +84,38 @@ body {
   color: rgb(85, 6, 85);
 }
 
-/* Photo row and images (unchanged) */
+/* Main navigation styles */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.main-nav a, .main-nav .dropdown {
+  color: #3e2723 !important;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.main-nav a.active {
+  color: rgb(85, 6, 85) !important;
+  font-weight: 700;
+}
+
+.main-nav a:hover {
+  text-decoration: none;
+}
+
+/* Content below fixed header */
+main {
+  margin-top: 150px; /* roughly header + nav height */
+  padding: 0 20px;
+}
+
+/* Photo rows for portfolio pages */
 .photo-row {
   display: flex;
   justify-content: center;
@@ -143,9 +129,4 @@ body {
   display: block;
   margin: 0;
   padding: 0;
-}
-
-/* Push page content below fixed header */
-main {
-  padding-top: 10px; /* same as .header-row height */
 }
