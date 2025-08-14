@@ -18,7 +18,7 @@ const NavBar = () => {
       <NavLink to="/">Home</NavLink>
       <NavLink to="/about">About</NavLink>
       <div className="dropdown">
-        <a href="#" style={{cursor: 'pointer'}}>Portfolio</a>
+        <NavLink href="#" style={{cursor: 'pointer'}}>Portfolio</NavLink>
         <div className="dropdown-content">
           <NavLink to="/portraits">Portraits</NavLink>
           <NavLink to="/live_events">Live Events</NavLink>
