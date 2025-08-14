@@ -30,9 +30,6 @@ const Albums = () => {
   const isAdmin = normalizedRoles.includes('admin');
   const debugString = `rawRoles: ${JSON.stringify(rawRoles)}\nnormalizedRoles: ${JSON.stringify(normalizedRoles)}\nisAdmin: ${isAdmin}`;
   console.log(debugString);
-
-
-  useEffect(() => {
       const fetchAlbums = async () => {
     try {
       const token = await getAccessTokenSilently();
@@ -46,10 +43,13 @@ const Albums = () => {
       console.error("Failed to fetch albums:", err);
     }
   };
+
+  useEffect(() => {
+
     if (isAuthenticated && user) {
       fetchAlbums();
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, fetchAlbums]);
 
   // More robust loading check
   if (isLoading || (isAuthenticated && !user)) {
