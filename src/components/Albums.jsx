@@ -31,7 +31,9 @@ const Albums = () => {
   const debugString = `rawRoles: ${JSON.stringify(rawRoles)}\nnormalizedRoles: ${JSON.stringify(normalizedRoles)}\nisAdmin: ${isAdmin}`;
   console.log(debugString);
 
-  const fetchAlbums = async () => {
+
+  useEffect(() => {
+      const fetchAlbums = async () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get('/api/albums', {
@@ -44,8 +46,6 @@ const Albums = () => {
       console.error("Failed to fetch albums:", err);
     }
   };
-
-  useEffect(() => {
     if (isAuthenticated && user) {
       fetchAlbums();
     }

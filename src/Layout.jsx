@@ -7,7 +7,7 @@ import './layout.css';
 const Layout = () => {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } = useAuth0();
   const [editMode, setEditMode] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const toggleEditMode = () => setEditMode(prev => !prev);
 
