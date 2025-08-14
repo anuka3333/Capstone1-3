@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import AlbumForm from './AlbumForm';
 import axios from 'axios';
@@ -30,7 +30,8 @@ const Albums = () => {
   const isAdmin = normalizedRoles.includes('admin');
   const debugString = `rawRoles: ${JSON.stringify(rawRoles)}\nnormalizedRoles: ${JSON.stringify(normalizedRoles)}\nisAdmin: ${isAdmin}`;
   console.log(debugString);
-      const fetchAlbums = async () => {
+
+  const fetchAlbums = useCallback(async () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get('/api/albums', {
@@ -42,10 +43,9 @@ const Albums = () => {
     } catch (err) {
       console.error("Failed to fetch albums:", err);
     }
-  };
+  }, [getAccessTokenSilently]);
 
   useEffect(() => {
-
     if (isAuthenticated && user) {
       fetchAlbums();
     }
