@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import api from '../api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const AlbumForm = ({ onAlbumCreated }) => {
   const [albumName, setAlbumName] = useState('');
@@ -9,18 +11,23 @@ const AlbumForm = ({ onAlbumCreated }) => {
   const [users, setUsers] = useState([]);
   const [clientId, setClientId] = useState('');
 
+  const { getAccessTokenSilently } = useAuth0();
+
   // Fetch users for admin dropdown
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await axios.get('/auth/users');
+        const token = await getAccessTokenSilently();
+        const res = await api.get('/auth/users', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUsers(res.data.users || []);
       } catch (err) {
         console.error('Failed to fetch users:', err);
       }
     }
     fetchUsers();
-  }, []);
+  }, [getAccessTokenSilently]);
 
   const handlePhotoChange = (e) => {
     const files = Array.from(e.target.files);
@@ -42,8 +49,9 @@ const AlbumForm = ({ onAlbumCreated }) => {
 
     try {
       setLoading(true);
-      const response = await axios.post('/api/albums/create', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const token = await getAccessTokenSilently();
+      const response = await api.post('/api/albums/create', formData, {
+        headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
       });
       console.log('Album created:', response.data);
       onAlbumCreated(); // refresh albums list

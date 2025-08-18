@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import AlbumForm from './AlbumForm';
-import axios from 'axios';
+import api from '../api';
 
 const Albums = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -35,7 +35,7 @@ const Albums = () => {
     try {
       const token = await getAccessTokenSilently();
       const url = isAdmin ? '/api/albums' : '/api/albums/my';
-      const response = await axios.get(url, {
+      const response = await api.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,12 +82,16 @@ const Albums = () => {
                 <h3>{album.name}</h3>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {album.photos.map((photo, idx) => (
-                    <img
-                      key={idx}
-                      src={photo.url}
-                      alt={photo.name}
-                      style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '5px' }}
-                    />
+                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <img
+                        src={photo.url}
+                        alt={photo.name}
+                        style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '5px' }}
+                      />
+                      <a href={photo.url} download style={{ marginTop: '5px' }}>
+                        <button style={{ padding: '4px 10px', fontSize: '0.9em' }}>Download</button>
+                      </a>
+                    </div>
                   ))}
                 </div>
               </li>

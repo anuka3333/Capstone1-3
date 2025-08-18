@@ -115,5 +115,5 @@ body, h1, p, a, nav, .dropdown, .dropdown-content {
     }
     .portfolio-active {
       font-weight: bold;
-      color: #800080;
+      color: rgb(85, 6, 85) !important;
     }
