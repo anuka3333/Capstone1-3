@@ -34,16 +34,18 @@ const Albums = () => {
   const fetchAlbums = useCallback(async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get('/api/albums', {
+      const url = isAdmin ? '/api/albums' : '/api/albums/my';
+      const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setAlbums(response.data);
+      // For /my, albums are in response.data.albums; for /albums, may be response.data or response.data.albums
+      setAlbums(response.data.albums || response.data);
     } catch (err) {
       console.error("Failed to fetch albums:", err);
     }
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, isAdmin]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -65,11 +67,6 @@ const Albums = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h1>Albums</h1>
-      
-      {/* Debug: show role detection values on the page */}
-      <pre style={{ whiteSpace: 'pre-wrap', background: '#f6f8fa', padding: '8px', borderRadius: '4px' }}>
-        {debugString}
-      </pre>
 
       {/* Show the form if user is admin */}
       {isAdmin && <AlbumForm onAlbumCreated={fetchAlbums} />}

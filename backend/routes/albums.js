@@ -41,4 +41,13 @@ router.get("/:albumId", authMiddleware(), async (req, res) => {
   res.json({ status: "success", photos });
 });
 
+// Get all albums for the logged-in client
+router.get("/my", authMiddleware(), async (req, res) => {
+  const userId = req.user.id;
+  const albums = await db.all(`SELECT * FROM albums WHERE client_id = ?`, [
+    userId,
+  ]);
+  res.json({ status: "success", albums });
+});
+
 export default router;

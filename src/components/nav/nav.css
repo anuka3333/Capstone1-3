@@ -1,4 +1,4 @@
-    body, h1, p, a, nav, .dropdown, .dropdown-content {
+body, h1, p, a, nav, .dropdown, .dropdown-content {
       font-family: 'Playfair Display', serif !important;
       color: #3e2723 !important;
       background: #fffbf6 !important;
@@ -112,4 +112,8 @@
       display: block;
       margin: 0;
       padding: 0;
+    }
+    .portfolio-active {
+      font-weight: bold;
+      color: #800080;
     }

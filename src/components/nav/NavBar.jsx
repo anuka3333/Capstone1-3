@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import './nav.css'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -13,12 +13,22 @@ const NavBar = () => {
   else if (rawRoles) roles = [String(rawRoles)];
   const normalizedRoles = roles.map(r => String(r).toLowerCase());
   const isAdmin = isAuthenticated && normalizedRoles.includes('admin');
+
+  const location = useLocation();
+  // Portfolio is active if on /portraits, /live_events, or /hospitality
+  const isPortfolioActive = ['/portraits', '/live_events', '/hospitality'].includes(location.pathname);
+
   return (
     <div className="main-nav">
       <NavLink to="/">Home</NavLink>
       <NavLink to="/about">About</NavLink>
       <div className="dropdown">
-        <NavLink href="#" style={{cursor: 'pointer'}}>Portfolio</NavLink>
+        <span
+          className={isPortfolioActive ? 'portfolio-active' : ''}
+          style={{cursor: 'pointer'}}
+        >
+          Portfolio
+        </span>
         <div className="dropdown-content">
           <NavLink to="/portraits">Portraits</NavLink>
           <NavLink to="/live_events">Live Events</NavLink>
@@ -26,10 +36,8 @@ const NavBar = () => {
         </div>
       </div>
       <NavLink to="/contact">Contact</NavLink>
-      {isAdmin && <NavLink to="/albums">Albums</NavLink>}
+      {isAuthenticated && <NavLink to="/albums">Albums</NavLink>}
       <NavLink to="/shop">Shop</NavLink>
-
-        
     </div>
   )
 }

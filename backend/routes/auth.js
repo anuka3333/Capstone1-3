@@ -37,4 +37,33 @@ router.post("/login", async (req, res) => {
   res.json({ status: "success", token });
 });
 
+// Get all users (admin only)
+router.get('/users', async (req, res) => {
+  // Optionally add admin authMiddleware here
+  try {
+    const users = await db.all('SELECT id, name, email FROM users');
+    res.json({ status: 'success', users });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create user from Auth0 registration (called by Auth0 Action)
+router.post('/from-auth0', async (req, res) => {
+  const { name, email, auth0_id } = req.body;
+  if (!email || !auth0_id) return res.status(400).json({ error: 'Missing email or auth0_id' });
+  try {
+    // Only create if not exists
+    const existing = await db.get('SELECT * FROM users WHERE email = ?', [email]);
+    if (existing) return res.json({ status: 'exists', userId: existing.id });
+    const result = await db.run(
+      `INSERT INTO users (name, email, role, auth0_id) VALUES (?, ?, ?, ?)`,
+      [name || '', email, 'client', auth0_id]
+    );
+    res.json({ status: 'created', userId: result.lastID });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AlbumForm = ({ onAlbumCreated }) => {
@@ -6,6 +6,21 @@ const AlbumForm = ({ onAlbumCreated }) => {
   const [photos, setPhotos] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [clientId, setClientId] = useState('');
+
+  // Fetch users for admin dropdown
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const res = await axios.get('/auth/users');
+        setUsers(res.data.users || []);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+      }
+    }
+    fetchUsers();
+  }, []);
 
   const handlePhotoChange = (e) => {
     const files = Array.from(e.target.files);
@@ -15,18 +30,19 @@ const AlbumForm = ({ onAlbumCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!albumName || photos.length === 0) {
-      alert('Please provide album name and at least one photo.');
+    if (!albumName || photos.length === 0 || !clientId) {
+      alert('Please provide album name, select a client, and at least one photo.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('name', albumName);
+    formData.append('albumName', albumName);
+    formData.append('clientId', clientId);
     photos.forEach((photo) => formData.append('photos', photo));
 
     try {
       setLoading(true);
-      const response = await axios.post('/api/albums', formData, {
+      const response = await axios.post('/api/albums/create', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Album created:', response.data);
@@ -36,6 +52,7 @@ const AlbumForm = ({ onAlbumCreated }) => {
       setAlbumName('');
       setPhotos([]);
       setPreviews([]);
+      setClientId('');
     } catch (error) {
       console.error('Error creating album:', error);
       alert('Error creating album.');
@@ -48,6 +65,17 @@ const AlbumForm = ({ onAlbumCreated }) => {
     <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
       <h2>Create New Album</h2>
       <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '10px' }}>
+          <label>
+            Select Client:
+            <select value={clientId} onChange={e => setClientId(e.target.value)} required style={{ marginLeft: '10px' }}>
+              <option value="">-- Select Client --</option>
+              {users.map(user => (
+                <option key={user.id} value={user.id}>{user.name} ({user.email})</option>
+              ))}
+            </select>
+          </label>
+        </div>
         <div>
           <label>
             Album Name:
