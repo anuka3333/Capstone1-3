@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-function LiveEventsGallery() {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const liveImages = [
+  'IMG_0905.JPG',
+  'IMG_1507.JPG',
+  'IMG_4624.JPG',
+  'IMG_4579.JPG',
+  'IMG_0217.JPG',
+  'IMG_1850.JPG',
+  'IMG_3301.JPG',
+  'IMG_3297.JPG',
+  'IMG_3237.JPG',
+  'IMG_3116.JPG',
+  'IMG_3043.JPG',
+  'IMG_2999.JPG',
+  'IMG_1567.JPG',
+  'IMG_1540.JPG',
+];
 
-  useEffect(() => {
-    fetch('https://your-api.com/live-events') // Replace with your real API
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch photos');
-        return res.json();
-      })
-      .then(data => setPhotos(data))
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <p>Loading live event photos...</p>;
-  if (error) return <p>Error: {error}</p>;
-
+export default function LiveEventsGallery() {
   return (
-    <section className="p-6">
-      <h2 className="text-3xl font-bold mb-4">Live Event Highlights</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {photos.map(photo => (
-          <div key={photo.id} className="shadow-md rounded-lg overflow-hidden">
-            <img
-              src={photo.url}
-              alt={photo.title}
-              className="w-full h-60 object-cover"
-            />
-            <div className="p-2">
-              <h3 className="text-lg font-semibold">{photo.title}</h3>
-              {photo.description && (
-                <p className="text-sm text-gray-600">{photo.description}</p>
-              )}
-            </div>
-          </div>
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '20px',
+          marginTop: '1rem',
+          maxWidth: '640px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
+      >
+        {liveImages.map((img, idx) => (
+          <img
+            key={img}
+            src={'/Live/' + img}
+            alt={`Live Event ${idx + 1}`}
+            style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
+          />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
-
-export default LiveEventsGallery;

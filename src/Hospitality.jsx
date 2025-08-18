@@ -16,7 +16,7 @@ export default function Hospitality() {
 				}}
 			>
 				<img
-					src="/Hospitality/IMG_1117.jpg"
+					src="/Hospitality/IMG_3870.jpg"
 					alt="Hospitality IMG_3870"
 					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
 				/>
@@ -25,9 +25,14 @@ export default function Hospitality() {
 					alt="Hospitality IMG_1117"
 					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
 				/>
+        <img
+					src="/Hospitality/IMG_1180.jpg"
+					alt="Hospitality IMG_1180"
+					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
+				/>
 				<img
-					src="/Hospitality/IMG_180.jpg"
-					alt="Hospitality IMG_180"
+					src="/Hospitality/IMG_5331.jpg"
+					alt="Hospitality IMG_5331"
 					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
 				/>
 				<img
@@ -38,11 +43,6 @@ export default function Hospitality() {
 				<img
 					src="/Hospitality/IMG_1216.jpg"
 					alt="Hospitality IMG_1216"
-					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
-				/>
-				<img
-					src="/Hospitality/IMG_5331.jpg"
-					alt="Hospitality IMG_5331"
 					style={{ width: '300px', maxWidth: '90%', borderRadius: '8px' }}
 				/>
 				<img
