@@ -6,6 +6,28 @@ import api from '../api';
 const Albums = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [albums, setAlbums] = useState([]);
+  const [bucketImages, setBucketImages] = useState([]);
+
+  const fetchSupabaseImages = useCallback(async () => {
+    try {
+      const token = await getAccessTokenSilently({ audience: process.env.REACT_APP_AUTH0_AUDIENCE });
+      const response = await fetch('http://127.0.0.1:5000/gallery/photos', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch images from Supabase bucket');
+      }
+      
+      const data = await response.json();
+      setBucketImages(data);
+      console.log('Fetched images from Supabase:', data);
+    } catch (error) {
+      console.error('Error fetching Supabase images:', error);
+    }
+  }, [getAccessTokenSilently]);
 
   // Debug logging (use JSON.stringify so console shows a snapshot)
   console.log('Albums component render:');
@@ -33,8 +55,8 @@ const Albums = () => {
 
   const fetchAlbums = useCallback(async () => {
     try {
-      const token = await getAccessTokenSilently();
-      const url = isAdmin ? '/api/albums' : '/api/albums/my';
+      const token = await getAccessTokenSilently({ audience: process.env.REACT_APP_AUTH0_AUDIENCE });
+  const url = isAdmin ? '/api/albums' : '/api/albums/my';
       const response = await api.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,8 +72,9 @@ const Albums = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
       fetchAlbums();
+      fetchSupabaseImages(); // Fetch Supabase images when component mounts
     }
-  }, [isAuthenticated, user, fetchAlbums]);
+  }, [isAuthenticated, user, fetchAlbums, fetchSupabaseImages]);
 
   // More robust loading check
   if (isLoading || (isAuthenticated && !user)) {
@@ -68,11 +91,36 @@ const Albums = () => {
     <div style={{ padding: '20px' }}>
       <h1>Albums</h1>
 
+      <p>
+        Test
+      </p>
+
       {/* Show the form if user is admin */}
       {isAdmin && <AlbumForm onAlbumCreated={fetchAlbums} />}
 
       {/* List all albums */}
+      {/* Display all images from Supabase bucket */}
       <div style={{ marginTop: '20px' }}>
+        <h2>All Photos</h2>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '30px' }}>
+          {bucketImages.map((photo, idx) => (
+            <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <img
+                src={photo.url}
+                alt={photo.filename}
+                style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '5px' }}
+              />
+              <span style={{ fontSize: '0.8em', marginTop: '5px' }}>{photo.filename}</span>
+              <a href={photo.url} download style={{ marginTop: '5px' }}>
+                <button style={{ padding: '4px 10px', fontSize: '0.9em' }}>Download</button>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginTop: '20px' }}>
+        <h2>Albums</h2>
         {albums.length === 0 ? (
           <p>No albums available.</p>
         ) : (
@@ -88,7 +136,7 @@ const Albums = () => {
                         alt={photo.name}
                         style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '5px' }}
                       />
-                      <a href={photo.url} download style={{ marginTop: '5px' }}>
+                      <a href={photo.url.startsWith('http') ? photo.url : (process.env.REACT_APP_API_URL || '') + photo.url} download style={{ marginTop: '5px' }}>
                         <button style={{ padding: '4px 10px', fontSize: '0.9em' }}>Download</button>
                       </a>
                     </div>
