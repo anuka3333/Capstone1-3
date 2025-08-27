@@ -75,7 +75,7 @@ const AlbumForm = ({ onCreate }) => {
         )}
 
         <button type="submit" style={{ marginTop: '10px', padding: '6px 12px' }}>
-          Create Album
+          Upload Album
         </button>
       </form>
     </div>

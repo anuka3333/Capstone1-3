@@ -86,6 +86,42 @@ def delete_client(client_id):
 # PHOTO ROUTES
 # -----------------------------
 
+@app.route('/api/albums/<int:album_id>/photos', methods=['POST'])
+def add_photo_to_album(album_id):
+    try:
+        data = request.form
+        url = data.get('url')
+        filename = data.get('filename')
+
+        if not url or not filename:
+            return jsonify({"error": "URL and filename are required"}), 400
+
+        # Check if the album exists
+        album_response = supabase.table("albums").select("*").eq("id", album_id).single().execute()
+        if not album_response.data:
+            return jsonify({"error": "Album not found"}), 404
+
+        # Add the photo to the album
+        photo_response = supabase.table("photos").insert({
+            "filename": filename,
+            "storage_url": url,
+            "gallery_id": album_id
+        }).execute()
+
+        if photo_response.error:
+            return jsonify({"error": "Failed to add photo to album"}), 500
+
+        new_photo = photo_response.data[0]
+        return jsonify({
+            "id": new_photo["id"],
+            "filename": new_photo["filename"],
+            "url": new_photo["storage_url"]
+        }), 201
+
+    except Exception as e:
+        print(f"Error adding photo to album: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 def list_folder_contents(bucket, path=''):
     """Recursively list all files in a bucket folder"""
     try:

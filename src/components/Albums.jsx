@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import AlbumForm from './AlbumForm';
+import AlbumCreateForm from './AlbumCreateForm';
 import api from '../api';
 
 const Albums = () => {
@@ -89,11 +90,7 @@ const Albums = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Albums</h1>
-
-      <p>
-        Test
-      </p>
+      <h1>Photo Gallery</h1>
 
       {/* Show the form if user is admin */}
       {isAdmin && <AlbumForm onAlbumCreated={fetchAlbums} />}
@@ -121,6 +118,11 @@ const Albums = () => {
 
       <div style={{ marginTop: '20px' }}>
         <h2>Albums</h2>
+        {isAdmin && (
+          <div style={{ marginBottom: '20px' }}>
+            <AlbumCreateForm onCreated={fetchAlbums} />
+          </div>
+        )}
         {albums.length === 0 ? (
           <p>No albums available.</p>
         ) : (
